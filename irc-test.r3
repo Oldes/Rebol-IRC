@@ -79,21 +79,21 @@ my-commands: make map! reduce/no-set [
 freenode.irc: make port! [
 	scheme:   'irc
 	user:     :options/user
-	real:     :options/user
+	real:     :options/real
 	host:     "chat.freenode.net"
 	commands: :my-commands
 ]
 libera.irc: make port! [
 	scheme:   'irc
 	user:     :options/user
-	real:     :options/user
+	real:     :options/real
 	host:     "irc.eu.libera.chat"
 	commands: :my-commands
 ]
 oftc.irc: make port! [
 	scheme:   'irc
 	user:     :options/user
-	real:     :options/user
+	real:     :options/real
 	host:     "irc.oftc.net"
 	port:      6667
 	commands: :my-commands
