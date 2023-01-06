@@ -99,7 +99,7 @@ oftc.irc: make port! [
 	commands: :my-commands
 ]
 
-do-connect: function[
+do-connect: function [
 	"Connect to given IRC port or ports."
 	ircs [port! block!]
 	/shutdown date [date!]
@@ -108,9 +108,7 @@ do-connect: function[
 	ports: copy [30]
 	forall ircs [
 		unless port? port: ircs/1 [remove ircs continue]
-		spec: port/spec
-		spec/ref: as url! ajoin [spec/scheme "://" spec/user "@" spec/host #":" spec/port]
-		print [as-yellow "Opening connection:" as-green spec/ref now/utc]
+		print [as-yellow "Opening connection:" as-green port/spec/host now/utc]
 		either error? try [open port][
 			print as-purpe "*** Failed to connect!"
 		][
