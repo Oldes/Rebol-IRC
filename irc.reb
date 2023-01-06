@@ -61,7 +61,7 @@ on-line: function[
 ][
 	msg: to string! line
 	ctx: ircp/extra
-	out: ctx/out-buffer
+	out: ctx/output
 	cmd: ctx/command
 	cmd/args: clear []
 
@@ -142,7 +142,7 @@ on-conn-awake: function [
 
 			either any [
 				not empty? conn/data       ;; if there are still some data,
-				empty? out: ctx/out-buffer ;; or there is nothing to send...
+				empty? out: ctx/output     ;; or there is nothing to send...
 			][
 				read conn                  ;; keep reading
 			][
@@ -209,7 +209,7 @@ sys/make-scheme [
 			if open? port [return port]
 			port/extra: ctx: construct [
 				connection:  ;; Internal TCP or TLS connection
-				out-buffer:  ;; Output temporary buffer
+				output:      ;; Output temporary buffer
 				nick:        ;; Current user's nick (may be different than requested!)
 				mode:        ;; Current user's mode
 				error:       ;; Used to store an error object or message
@@ -219,8 +219,8 @@ sys/make-scheme [
 				command:     ;; Current command modified for each line (parsed)
 				timestamp:   ;; Timestamp of the last awake
 			]
-			port/data:      make binary! 500
-			ctx/out-buffer: make binary! 500
+			port/data:   make binary! 500
+			ctx/output:  make binary! 500
 			ctx/mode:    copy ""
 			ctx/command: construct [
 				comm: ;; word or integer
@@ -326,7 +326,7 @@ sys/make-scheme [
 			value 
 		][
 			sys/log/more 'IRC ["Client:^[[32m" hide-secrets value]
-			append append port/extra/out-buffer value CRLF
+			append append port/extra/output value CRLF
 		]
 		
 		flush: func[
@@ -337,7 +337,7 @@ sys/make-scheme [
 				;; flush only when there are no data on the input...
 				empty? port/extra/connection/data
 				;; and when there are some output data ready to be sent
-				0 < bytes: length? out: port/extra/out-buffer
+				0 < bytes: length? out: port/extra/output
 				sys/log/debug 'IRC ["Sending" bytes "bytes."]
 				write port/extra/connection take/part out bytes
 			]
