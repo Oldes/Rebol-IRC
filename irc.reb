@@ -3,7 +3,7 @@ REBOL [
 	type:    module
 	name:    irc
 	date:    6-Jan-2023
-	file:     https://raw.githubusercontent.com/Oldes/Rebol-IRC/master/irc.reb
+	file:    https://raw.githubusercontent.com/Oldes/Rebol-IRC/master/irc.reb
 	version: 0.0.1
 	author: @Oldes
 	references: {
@@ -96,7 +96,7 @@ on-line: function[
 		;; user defined action first...
 		not function? action: :ircp/spec/commands/:comm
 		not action ircp cmd
-	][  ;; default action if there is no user's action or if user's action is truthy
+	][	;; default action if there is no user's action or if user's action is truthy
 		default-commands/:comm ircp cmd
 	]
 ]
@@ -378,6 +378,6 @@ default-commands: make map! reduce/no-set [
 		append ircp "JOIN #rebol"
 	]
 	375 func[ircp cmd][ ircp/extra/message: make block! 10 ]
-	372 func[ircp cmd][	append ircp/extra/message cmd/args/2 ]
-	376 func[ircp cmd][	foreach line ircp/extra/message [print as-cyan line] ]
+	372 func[ircp cmd][ append ircp/extra/message cmd/args/2 ]
+	376 func[ircp cmd][ foreach line ircp/extra/message [print as-cyan line] ]
 ]
