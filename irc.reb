@@ -380,4 +380,8 @@ default-commands: make map! reduce/no-set [
 	375 func[ircp cmd][ ircp/extra/message: make block! 10 ]
 	372 func[ircp cmd][ append ircp/extra/message cmd/args/2 ]
 	376 func[ircp cmd][ foreach line ircp/extra/message [print as-cyan line] ]
+	433 func[ircp cmd][
+		sys/log/error 'IRC ["Nickname" as-yellow cmd/args/2 as-purple "is already in use."]
+		append ircp ajoin ["NICK " ircp/spec/user random 10000]
+	]
 ]
