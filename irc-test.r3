@@ -26,8 +26,8 @@ my-commands: make map! reduce/no-set [
 		any [
 			;-- Actions which are send to me in private and only by my master...
 			if all [
-				cmd/host = "freenode/user/oldes"
-				cmd/args/1 = ircp/spec/user
+				cmd/host = "freenode/user/oldes" ;; freenode registered oldes' vhost
+				cmd/args/1 = ircp/spec/user      ;; private message addressed to me
 			][
 				parse cmd/args/2 [
 					"verbose" some space set val: some numeric to end (
@@ -40,8 +40,8 @@ my-commands: make map! reduce/no-set [
 			parse cmd/args/2 [
 				"How are you?" (
 					recycle recycle
-					append ircp ajoin ["PRIVMSG " recipient " :I'm fine, thank you!"]
-					append ircp ajoin ["PRIVMSG " recipient " :My memory usage is: " stats]
+					append ircp ["PRIVMSG " recipient " :I'm fine, thank you!"]
+					append ircp ["PRIVMSG " recipient " :My memory usage is: " stats]
 				)
 				|
 				"stats" (
@@ -51,7 +51,7 @@ my-commands: make map! reduce/no-set [
 					stats/show
 					echo none
 					foreach line read/lines %.stats [
-						append ircp ajoin ["PRIVMSG " recipient " :" line]
+						append ircp ["PRIVMSG " recipient " :" line]
 					]
 				)
 			]
@@ -66,12 +66,12 @@ my-commands: make map! reduce/no-set [
 		false
 	]
 	JOIN:  func[ircp cmd][
-		append ircp ajoin ["WHOIS " cmd/nick]
+		append ircp ["WHOIS " cmd/nick]
 		if all [
 			cmd/host = "freenode/user/oldes"
 			cmd/args/1 = "#rebol"
 		][
-			append ircp ajoin ["MODE " cmd/args/1 " +o " cmd/nick]
+			append ircp ["MODE " cmd/args/1 " +o " cmd/nick]
 		]
 	]
 ]
