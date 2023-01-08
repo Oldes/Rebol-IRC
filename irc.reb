@@ -124,8 +124,8 @@ on-conn-awake: function [
 			false  ;; no awake
 		]
 		connect [
-			append ircp ajoin ["NICK " ircp/spec/user]
-			append ircp ajoin ["USER " ircp/spec/user " 0 * :" ircp/spec/real]
+			append ircp ["NICK " ircp/spec/user]
+			append ircp ["USER " ircp/spec/user " 0 * :" ircp/spec/real]
 			sys/log/more 'IRC "Reading server's invitation..."
 			flush  ircp
 			false  ;; no awake
@@ -325,6 +325,7 @@ sys/make-scheme [
 			port  [port!]
 			value 
 		][
+			if block? :value [ value: ajoin :value ]
 			sys/log/more 'IRC ["Client:^[[32m" hide-secrets value]
 			append append port/extra/output value CRLF
 		]
@@ -346,7 +347,7 @@ sys/make-scheme [
 ]
 
 default-commands: make map! reduce/no-set [
-	PING: func[ircp cmd][append ircp ajoin ["PONG " cmd/args]]
+	PING: func[ircp cmd][append ircp ["PONG " cmd/args]]
 	PONG: func[ircp cmd][ircp/extra/ping: none]
 	MODE: func[ircp cmd /local mode][
 		if cmd/args/1 = ircp/spec/user [
@@ -366,7 +367,7 @@ default-commands: make map! reduce/no-set [
 		][
 			parse cmd/args/2 [
 				"This nickname is registered" to end (
-					append ircp ajoin ["PRIVMSG NickServ :IDENTIFY " ircp/spec/password]
+					append ircp ["PRIVMSG NickServ :IDENTIFY " ircp/spec/password]
 				)
 			]
 		]
@@ -382,6 +383,6 @@ default-commands: make map! reduce/no-set [
 	376 func[ircp cmd][ foreach line ircp/extra/message [print as-cyan line] ]
 	433 func[ircp cmd][
 		sys/log/error 'IRC ["Nickname" as-yellow cmd/args/2 as-purple "is already in use."]
-		append ircp ajoin ["NICK " ircp/spec/user random 10000]
+		append ircp ["NICK " ircp/spec/user random 10000]
 	]
 ]
