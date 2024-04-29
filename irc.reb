@@ -176,7 +176,7 @@ sys/make-scheme [
 		user:     none
 		real:     ""
 		password: none
-		commands: #()
+		commands: make map! 10
 	]
 	awake: func[event /local port type err][
 		port: event/port
