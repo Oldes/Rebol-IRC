@@ -4,7 +4,7 @@ REBOL [
 	name:    irc
 	date:    6-Jan-2023
 	file:    https://raw.githubusercontent.com/Oldes/Rebol-IRC/master/irc.reb
-	version: 0.0.1
+	version: 0.0.2
 	author: @Oldes
 	references: {
 	Related IRC documentations:
